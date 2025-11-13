@@ -1,0 +1,36 @@
+# Name of our workflow (will appear in the Actions tab)
+name: Super-Linter
+
+permissions:
+  contents: read
+  statuses: write
+
+# When should this action be triggered?
+on:
+  pull_request: # Also on every opening/update of a Pull Request
+    branches:
+      - main # Targeting 'main'
+
+# What tasks (jobs) should be performed?
+jobs:
+  # Name of our job (this is the "status check" name)
+  lint-code:
+    # Which system should this run on?
+    runs-on: ubuntu-latest
+
+    # Steps to execute
+    steps:
+      # Step 1: Checkout code from repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch full history, required for Super-Linter
+
+      # Step 2: Run Super-Linter
+      - name: Run Super-Linter
+        uses: github/super-linter@v6 # Using the ready-made GitHub action
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: 'false' # Only check files changed in PR
+          VALIDATE_JSON: false # Disable JSON validation
