@@ -1,39 +1,39 @@
-# Nazwa naszego workflow (pojawi się w zakładce Actions)
+# Name of our workflow (will appear in the Actions tab)
 name: Super-Linter
 
 permissions:
   contents: read
   statuses: write
 
-# Kiedy ta akcja ma się uruchamiać?
+# When should this action be triggered?
 on:
-  pull_request: # Oraz przy każdym otwarciu/aktualizacji Pull Requesta
+  pull_request: # Also on every opening/update of a Pull Request
     branches:
-      - main # Celującego w 'main'
+      - main # Targeting 'main'
 
-# Jakie zadania (joby) ma wykonać?
+# What tasks (jobs) should be performed?
 jobs:
-  # Nazwa naszego zadania (to jest nazwa "status check")
+  # Name of our job (this is the "status check" name)
   lint-code:
-    # Na jakim systemie ma to uruchomić?
+    # Which system should this run on?
     runs-on: ubuntu-latest
 
-    # Kroki do wykonania
+    # Steps to execute
     steps:
-      # Krok 1: Pobranie kodu z repozytorium
+      # Step 1: Checkout code from repository
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Pobierz całą historię, potrzebne do Super-Lintera
+          fetch-depth: 0 # Fetch full history, required for Super-Linter
 
-      # Krok 2: Uruchomienie Super-Lintera
+      # Step 2: Run Super-Linter
       - name: Run Super-Linter
-        uses: github/super-linter@v6 # Używamy gotowej akcji od GitHuba
+        uses: github/super-linter@v6 # Using the ready-made GitHub action
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_ALL_CODEBASE: 'false' # Sprawdzaj tylko zmienione pliki w PR
-#          VALIDATE_JSCPD: false # Wyłącz sprawdzanie duplikatów kodu (tymczasowo)
-#          VALIDATE_CSS: false # Wyłącz sprawdzanie CSS (tymczasowo)
-#          VALIDATE_JAVASCRIPT_STANDARD: false # Wyłącz sprawdzanie standardów JavaScript (tymczasowo)
-#          VALIDATE_TYPESCRIPT_STANDARD: false # Wyłącz sprawdzanie standardów TypeScript (tymczasowo)
+          VALIDATE_ALL_CODEBASE: 'false' # Only check files changed in PR
+#          VALIDATE_JSCPD: false # Disable code duplication check (temporarily)
+#          VALIDATE_CSS: false # Disable CSS check (temporarily)
+#          VALIDATE_JAVASCRIPT_STANDARD: false # Disable JavaScript standards check (temporarily)
+#          VALIDATE_TYPESCRIPT_STANDARD: false # Disable TypeScript standards check (temporarily)
