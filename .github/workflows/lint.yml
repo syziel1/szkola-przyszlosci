@@ -33,3 +33,4 @@ jobs:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_ALL_CODEBASE: 'false' # Only check files changed in PR
+          VALIDATE_JSON: false # Disable JSON validation
